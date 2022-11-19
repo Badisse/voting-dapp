@@ -1,13 +1,13 @@
 import React from 'react';
 import { EthProvider } from './contexts/EthContext';
-import MainLayout from './components/MainLayout';
+import Main from './views/Main';
 
 function App(): JSX.Element {
     return (
         <EthProvider>
             <div className="bg-sky-900 text-white">
                 <div className="mx-8">
-                    <MainLayout />
+                    <Main />
                 </div>
             </div>
         </EthProvider>

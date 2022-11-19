@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from 'react';
+import Button from '../../components/Button';
+import Card from '../../components/Card';
 import useEth from '../../contexts/EthContext/useEth';
-import Card from '../Utils/Card';
-import Button from '../Utils/Button';
 import { setContract, deployContract } from '../../utils';
 
 type Props = {

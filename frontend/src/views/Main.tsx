@@ -1,15 +1,15 @@
 import React from 'react';
-import ClipLoader from 'react-spinners/ClipLoader';
-import useEth from '../contexts/EthContext/useEth';
-import Home from './HomeLayout/Home';
-import Admin from './AdministratorLayout/Admin';
-import Voter from './VoterLayout/Voter';
+import { ClipLoader } from 'react-spinners';
+import Admin from './Admin';
+import ParticlesBackground from '../components/Particles/ParticlesBackground';
 import UserAddr from './UserAddr';
 import { ADMIN_ID, VOTER_ID } from '../constants/roles';
-import ParticlesBackground from './Particles/ParticlesBackground';
 import WORKFLOW_STATUS from '../constants/workflowStatus';
+import { useEth } from '../contexts/EthContext';
+import Home from './Home';
+import Voter from './Voter';
 
-function MainLayout(): JSX.Element {
+function Main(): JSX.Element {
     const {
         state: { loading, account, userRole, workflowStatus },
     } = useEth();
@@ -33,4 +33,4 @@ function MainLayout(): JSX.Element {
     );
 }
 
-export default MainLayout;
+export default Main;

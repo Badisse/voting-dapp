@@ -1,6 +1,6 @@
 import React from 'react';
-import InitVoter from './InitVoter';
 import useEth from '../../contexts/EthContext/useEth';
+import InitVoter from './InitVoter';
 import VoterDashboard from './VoterDashboard';
 
 function Voter(): JSX.Element {
