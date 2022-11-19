@@ -1,7 +1,8 @@
 {
   "scripts": {
     "hardhat-node": "yarn hardhat node",
-    "prepare": "cd .. && husky install frontend/.husky"
+    "prepare": "cd .. && husky install hardhat/.husky",
+    "commit": "clear && git-cz"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
@@ -22,6 +23,7 @@
     "chai": "^4.2.0",
     "dotenv": "^16.0.3",
     "ethers": "^5.4.7",
+    "git-cz": "^4.9.0",
     "hardhat": "^2.12.0",
     "hardhat-gas-reporter": "^1.0.8",
     "husky": "^8.0.2",
@@ -32,5 +34,15 @@
   },
   "dependencies": {
     "@primitivefi/hardhat-dodoc": "^0.2.3"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   }
 }
