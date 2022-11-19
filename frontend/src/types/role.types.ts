@@ -1,5 +1,6 @@
-/*[object Object]*/
-export type IRole = {
-  id: number
-  name: string
-}
+type Role = {
+    id: number;
+    name: string;
+};
+
+export default Role;

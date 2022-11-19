@@ -1,13 +1,14 @@
-/*[object Object]*/
-import { ethers } from "ethers";
+import { ethers } from 'ethers';
 
-type IExtensionForProvider = {
-  on: (event: string, callback: (...params: any) => void) => void;
-  removeListener: (event: string, callback: (...params: any) => void) => void;
-}
+type ExtensionForProvider = {
+    on: (event: string, callback: (...params: any) => void) => void;
+    removeListener: (event: string, callback: (...params: any) => void) => void;
+};
 
-type EthersProvider = ethers.providers.ExternalProvider & IExtensionForProvider;
+type EthersProvider = ethers.providers.ExternalProvider & ExtensionForProvider;
 
-export type IEthWindow = {
-  ethereum: EthersProvider
-} & Window
+type EthWindow = {
+    ethereum: EthersProvider;
+} & Window;
+
+export default EthWindow;

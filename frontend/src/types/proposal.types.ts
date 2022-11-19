@@ -1,7 +1,8 @@
-/*[object Object]*/
-import { BigNumber } from "ethers"
+import { BigNumber } from 'ethers';
 
-export type IProposal = {
-  description: string
-  voteCount: BigNumber
-}
+export type Proposal = {
+    description: string;
+    voteCount: BigNumber;
+};
+
+export default Proposal;

@@ -1,8 +1,7 @@
-/*[object Object]*/
-import { useContext } from 'react'
-import { IEthContextInterface } from '../../types/ethContext.types'
-import EthContext from './EthContext'
+import { useContext } from 'react';
+import EthContextType from '../../types/ethContext.types';
+import EthContext from './EthContext';
 
-const useEth = (): IEthContextInterface => useContext(EthContext)
+const useEth = (): EthContextType => useContext(EthContext);
 
-export default useEth
+export default useEth;

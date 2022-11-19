@@ -1,10 +1,10 @@
-/*[object Object]*/
-import { Dispatch } from "react"
-import { IAction } from "./actions.types"
-import { IState } from "./state.types"
+import { Dispatch } from 'react';
+import Action from './actions.types';
+import State from './state.types';
 
-export type IEthContextInterface = {
-  state: IState
-  dispatch: Dispatch<IAction>
-  init: () => Promise<void>
-}
+type EthContextType = {
+    state: State;
+    dispatch: Dispatch<Action>;
+};
+
+export default EthContextType;

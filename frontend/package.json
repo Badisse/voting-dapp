@@ -28,7 +28,8 @@
         "lint:fix": "eslint --fix \"src/**/*.{ts,tsx}\"",
         "prepare": "cd .. && husky install frontend/.husky",
         "precommit": "lint-staged",
-        "commit": "clear && git-cz"
+        "commit": "clear && git-cz",
+        "commitmsg": "commitlint --edit"
     },
     "browserslist": {
         "production": [
@@ -69,7 +70,7 @@
     },
     "husky": {
         "hooks": {
-            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+            "commit-msg": "commitlint --edit",
             "pre-commit": "lint-staged"
         }
     },

@@ -1,7 +1,8 @@
-/*[object Object]*/
-import { IState } from "./state.types"
+import State from './state.types';
 
-export type IAction = {
-  type: string
-  payload?: IState
-}
+type Action = {
+    type: string;
+    payload?: State;
+};
+
+export default Action;

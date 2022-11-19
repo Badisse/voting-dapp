@@ -1,0 +1,11 @@
+export { default as connectWallet } from './connectWallet';
+export { default as deployContract } from './deployContract';
+export { default as getAccount } from './getAccount';
+export { default as setContract } from './setContract';
+export { default as getProvider } from './getProvider';
+export { default as getVoterRegisteredEvent } from './getVoterRegisteredEvent';
+export { default as getVoters } from './getVotersRegisteredAddress';
+export { default as updateWorkflowStatus } from './updateWorkflowStatus';
+export { default as addVoter } from './addVoter';
+export { default as addProposal } from './addProposal';
+export { default as setVote } from './setVote';
