@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "husky": "^8.0.2",
+    "pinst": "^3.0.0"
+  }
+}

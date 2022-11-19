@@ -1,7 +1,7 @@
 {
   "scripts": {
     "hardhat-node": "yarn hardhat node",
-    "prepare": "husky install & yarn husky add .husky/commit-msg 'yarn --no -- commitlint --edit $1"
+    "prepare": "cd .. && husky install frontend/.husky"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
