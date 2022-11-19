@@ -15,7 +15,6 @@ function InitAdmin ({ children }: Props): JSX.Element {
   const [inputAddress, setInputAddress] = useState('')
 
   const deployContract = async (): Promise<void> => {
-    console.log('test')
     const factory = new ethers.ContractFactory(artifact?.abi as ContractInterface, artifact?.bytecode as BytesLike, signer)
     const contract = await factory.deploy()
     const isOwner = true
