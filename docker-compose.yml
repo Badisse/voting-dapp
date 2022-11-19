@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  hardhat-typescript:
+    build: ./hardhat
+    volumes:
+      - ./hardhat:/usr/src/app
+    environment:
+      - COINMARKETCAP_API_KEY=${COINMARKETCAP_API_KEY}
+    ports:
+      - '8545:8545'
+
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend:/usr/src/app
+    ports:
+      - '3000:3000'
