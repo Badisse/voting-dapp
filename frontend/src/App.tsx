@@ -6,7 +6,9 @@ function App(): JSX.Element {
     return (
         <EthProvider>
             <div className="bg-sky-900 text-white">
-                <MainLayout />
+                <div className="mx-8">
+                    <MainLayout />
+                </div>
             </div>
         </EthProvider>
     );
