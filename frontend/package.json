@@ -25,6 +25,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "lint:fix": "eslint --fix \"src/**/*.{ts,tsx}\"",
+    "prepare": "husky install & yarn husky add .husky/commit-msg 'yarn --no -- commitlint --edit $1",
     "precommit": "lint-staged"
   },
   "browserslist": {
