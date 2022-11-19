@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useEth from '../../contexts/EthContext/useEth';
 import WORKFLOW_STATUS, { WORKFLOW_STATUS_STRING } from '../../constants/workflowStatus';
-import { addProposal, setVote } from '../../utils';
+import { addProposal, setVote, getProposals } from '../../utils';
+import Proposal from '../../types/proposal.types';
+import Voter from '../../types/voter.types';
 
 function VoterDashboard(): JSX.Element {
     const { state, dispatch } = useEth();
     const [proposalDesc, setProposalDesc] = useState<string>('');
     const [proposalId, setProposalId] = useState<number>(0);
+    const [proposals, setProposals] = useState<{ id: number; data: Proposal }[]>([]);
+    const [voterAddress, setVoterAddress] = useState<string>('');
+    const [voter, setVoter] = useState<Voter>();
 
     const handleAddProposal = async () => {
         addProposal(proposalDesc, state, dispatch);
@@ -16,23 +21,20 @@ function VoterDashboard(): JSX.Element {
         setVote(id, state, dispatch);
     };
 
-    /** 
-  const getVoter = async (): Promise<void> => {
-    await state.contract?.getVoter(voterAddress).then((voter: Voter) => {
-      setVoter(voter)
-    })
-  }
+    useEffect(() => {
+        const get = async () => {
+            const res = await getProposals(state);
+            setProposals(res);
+        };
 
-  const getOneProposal = async (): Promise<void> => {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      const res = await state.contract?.getOneProposal(oneProposalId) as Proposal
-      setProposal(res)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-  */
+        get();
+    }, []);
+
+    const getVoter = async (): Promise<void> => {
+        await state.contract?.getVoter(voterAddress).then((voter: Voter) => {
+            setVoter(voter);
+        });
+    };
 
     return (
         <div className="h-screen">
@@ -50,11 +52,7 @@ function VoterDashboard(): JSX.Element {
                         value={proposalDesc}
                         onChange={(e) => setProposalDesc(e.target.value)}
                     />
-                    <button
-                        type="button"
-                        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                        onClick={handleAddProposal}
-                    >
+                    <button type="button" onClick={handleAddProposal}>
                         Add
                     </button>
                 </div>
@@ -69,15 +67,46 @@ function VoterDashboard(): JSX.Element {
                         value={proposalId}
                         onChange={(e) => setProposalId(parseInt(e.target.value))}
                     />
-                    <button
-                        type="button"
-                        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                        onClick={() => handleVote(proposalId)}
-                    >
+                    <button type="button" onClick={() => handleVote(proposalId)}>
                         Vote
                     </button>
                 </div>
             )}
+            <div>
+                <input
+                    type="text"
+                    className="text-gray-800"
+                    placeholder="Voter Address"
+                    value={voterAddress}
+                    onChange={(e) => setVoterAddress(e.target.value)}
+                />
+                <button type="button" onClick={getVoter}>
+                    Get Voter
+                </button>
+                <div>{voter?.isRegistered}</div>
+                <div>{voter?.hasVoted}</div>
+                <div>{voter?.votedProposalId.toNumber()}</div>
+            </div>
+            {state.workflowStatus === WORKFLOW_STATUS.votingSessionStarted && (
+                <button type="button" onClick={() => handleVote(0)}>
+                    Blank Vote
+                </button>
+            )}
+            <ul>
+                {proposals.map((proposal) => {
+                    return (
+                        <ul key={proposal.id}>
+                            <li>{proposal.data.description}</li>
+                            <li>{proposal.data.voteCount.toNumber()}</li>
+                            {state.workflowStatus === WORKFLOW_STATUS.votingSessionStarted && (
+                                <button type="button" onClick={() => handleVote(proposal.id)}>
+                                    Vote
+                                </button>
+                            )}
+                        </ul>
+                    );
+                })}
+            </ul>
         </div>
     );
 }

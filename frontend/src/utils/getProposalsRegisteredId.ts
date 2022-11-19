@@ -1,5 +1,5 @@
 import { Contract, Event } from 'ethers';
-import getProposalRegisteredEvents from './getProposalRegisteredEvent';
+import getProposalRegisteredEvents from './getProposalRegisteredEvents';
 
 const getProposalsRegisteredId = async (contract: Contract | undefined): Promise<number[]> => {
     let proposals: number[] = [];
