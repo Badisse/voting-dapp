@@ -21,16 +21,19 @@ const setContract = async (
     account: string | undefined,
     role: Role | undefined,
 ): Promise<void> => {
+    if (!ethers.utils.isAddress(address)) return;
+
     const contract = getContract(address, signer);
+    const workflowStatus: number = await contract.workflowStatus();
+
     dispatch({
         type: actions.loading,
     });
-    const workflowStatus: number = await contract.workflowStatus();
     const owner: string = await contract.owner();
 
     switch (role?.id) {
         case ADMIN_ID:
-            const isOwner = checkOwnership(owner, account);
+            const isOwner = await checkOwnership(owner, account);
             dispatch({
                 type: actions.setContract,
                 payload: { contract, workflowStatus, isOwner },

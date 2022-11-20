@@ -45,7 +45,15 @@ function InitAdmin({ children }: Props): JSX.Element {
                         <div className="text-2xl font-medium">Manage</div>
                         <div>Manage a voting session</div>
                     </div>
-                    <Input placeHolder="Contract Address" value={address} onChange={setAddress} />
+                    <div>
+                        <Input
+                            placeHolder="Contract Address"
+                            value={address}
+                            onChange={setAddress}
+                        />
+                        {children}
+                    </div>
+
                     <Button>
                         <button type="button" className="p-3" onClick={handleManageSession}>
                             Manage
@@ -53,7 +61,6 @@ function InitAdmin({ children }: Props): JSX.Element {
                     </Button>
                 </>
             </Card>
-            {children}
         </div>
     );
 }

@@ -11,6 +11,7 @@ import { List } from 'antd';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { Input as AntInput } from 'antd';
+import { ethers } from 'ethers';
 
 const { TextArea } = AntInput;
 
@@ -56,6 +57,7 @@ function VoterDashboard(): JSX.Element {
     }, []);
 
     const getVoter = async (): Promise<void> => {
+        if (!ethers.utils.isAddress(voterAddress)) return;
         await state.contract?.getVoter(voterAddress).then((voter: Voter) => {
             setVoter(voter);
         });
