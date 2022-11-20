@@ -9,6 +9,7 @@ import { useEth } from '../contexts/EthContext';
 import Home from './Home';
 import Voter from './Voter';
 import Proposal from '../types/proposal.types';
+import ContractAddr from './ContractAddr';
 
 function Main(): JSX.Element {
     const {
@@ -42,6 +43,7 @@ function Main(): JSX.Element {
     return (
         <>
             {account && <UserAddr />}
+            {contract && <ContractAddr />}
             {!userRole && <Home />}
             {userRole && userRole.id === ADMIN_ID && <Admin />}
             {userRole && userRole.id === VOTER_ID && <Voter />}

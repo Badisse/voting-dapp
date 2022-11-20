@@ -31,7 +31,10 @@ function ManageSession(): JSX.Element {
 
     return (
         <div className="flex flex-col items-center gap-10 h-1/2">
-            <div>{state.contract?.address}</div>
+            <div className="font-medium">
+                Contract Address:{' '}
+                <span className="">{state.contract?.address.toLocaleLowerCase()}</span>
+            </div>
             <div className="flex justify-around items-center w-full">
                 {state.workflowStatus !== WORKFLOW_STATUS.votingSessionEnded && (
                     <div className="flex flex-col justify-between items-center h-full">
