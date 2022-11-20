@@ -8,15 +8,19 @@ function Voter(): JSX.Element {
         state: { contract, workflowStatus, isVoter },
     } = useEth();
 
-    return !isVoter ? (
-        <InitVoter>
-            {contract && typeof workflowStatus !== 'number' && (
-                <div>Please enter a valid contract address</div>
+    return (
+        <div className="h-screen flex flex-col items-center justify-center">
+            {!isVoter ? (
+                <InitVoter>
+                    {contract && typeof workflowStatus !== 'number' && (
+                        <div>Please enter a valid contract address</div>
+                    )}
+                    {typeof workflowStatus === 'number' && <div>You are not registered</div>}
+                </InitVoter>
+            ) : (
+                <VoterDashboard />
             )}
-            {typeof workflowStatus === 'number' && <div>You are not registered</div>}
-        </InitVoter>
-    ) : (
-        <VoterDashboard />
+        </div>
     );
 }
 

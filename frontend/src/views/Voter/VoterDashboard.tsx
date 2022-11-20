@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import useEth from '../../contexts/EthContext/useEth';
-import WORKFLOW_STATUS, { WORKFLOW_STATUS_STRING } from '../../constants/workflowStatus';
+import WORKFLOW_STATUS from '../../constants/workflowStatus';
 import { addProposal, setVote, getProposals } from '../../utils';
 import Proposal from '../../types/proposal.types';
 import Voter from '../../types/voter.types';
+import DisplayWorkflowStatus from '../../components/DisplayWorkflowStatus';
 
 function VoterDashboard(): JSX.Element {
     const { state, dispatch } = useEth();
@@ -37,10 +38,10 @@ function VoterDashboard(): JSX.Element {
     };
 
     return (
-        <div className="h-screen">
-            <div>
-                Current Workflow Status:
-                {state.workflowStatus ? WORKFLOW_STATUS_STRING[state.workflowStatus] : null}
+        <div className="h-1/2 flex items-center">
+            <div className="flex flex-col items-center gap-5">
+                <div>Workflow Status</div>
+                <DisplayWorkflowStatus currentWorkflowStatus={state.workflowStatus} />
             </div>
             {state.workflowStatus === WORKFLOW_STATUS.proposalsRegistrationStarted && (
                 <div>
