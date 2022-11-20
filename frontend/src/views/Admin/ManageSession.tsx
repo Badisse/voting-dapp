@@ -30,48 +30,51 @@ function ManageSession(): JSX.Element {
     };
 
     return (
-        <div className="flex justify-around items-center h-1/2 w-full">
-            {state.workflowStatus !== WORKFLOW_STATUS.votingSessionEnded && (
-                <div className="flex flex-col justify-between items-center h-full">
-                    <div>Workflow Status</div>
-                    <DisplayWorkflowStatus currentWorkflowStatus={state.workflowStatus} />
-                    <button
-                        type="button"
-                        className="border"
-                        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                        onClick={handleUpdateWorkflowStatus}
-                    >
-                        Update
-                    </button>
-                </div>
-            )}
-            <div className="flex flex-col justify-between items-center h-full">
-                <InfinitScrollVoters voters={votersAddress} />
-
-                {state.workflowStatus === WORKFLOW_STATUS.registeringVoters && (
-                    <div>
-                        <div>Add voter</div>
-                        <input
-                            type="text"
-                            className="text-gray-800"
-                            onChange={(e) => setVoterAddress(e.target.value)}
-                            value={voterAddress}
-                        />
+        <div className="flex flex-col items-center gap-10 h-1/2">
+            <div>{state.contract?.address}</div>
+            <div className="flex justify-around items-center w-full">
+                {state.workflowStatus !== WORKFLOW_STATUS.votingSessionEnded && (
+                    <div className="flex flex-col justify-between items-center h-full">
+                        <div>Workflow Status</div>
+                        <DisplayWorkflowStatus currentWorkflowStatus={state.workflowStatus} />
                         <button
                             type="button"
                             className="border"
-                            // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                            onClick={handleAddVoter}
+                            onClick={handleUpdateWorkflowStatus}
                         >
-                            Add
+                            Update
                         </button>
                     </div>
                 )}
-                {state.workflowStatus && state.workflowStatus > WORKFLOW_STATUS.registeringVoters && (
-                    <div>
-                        <div>{proposalsNumber} Proposals are registered</div>
-                    </div>
-                )}
+                <div className="flex flex-col justify-between items-center h-full">
+                    <InfinitScrollVoters voters={votersAddress} />
+
+                    {state.workflowStatus === WORKFLOW_STATUS.registeringVoters && (
+                        <div>
+                            <div>Add voter</div>
+                            <input
+                                type="text"
+                                className="text-gray-800"
+                                onChange={(e) => setVoterAddress(e.target.value)}
+                                value={voterAddress}
+                            />
+                            <button
+                                type="button"
+                                className="border"
+                                // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                                onClick={handleAddVoter}
+                            >
+                                Add
+                            </button>
+                        </div>
+                    )}
+                    {state.workflowStatus &&
+                        state.workflowStatus > WORKFLOW_STATUS.registeringVoters && (
+                            <div>
+                                <div>{proposalsNumber} Proposals are registered</div>
+                            </div>
+                        )}
+                </div>
             </div>
         </div>
     );
