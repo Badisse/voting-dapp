@@ -1,8 +1,10 @@
 import { Contract, ContractInterface, ethers, Signer } from 'ethers';
 import { Dispatch } from 'react';
 import artifact from '../constants/artifact';
+import { ADMIN_ID, VOTER_ID } from '../constants/roles';
 import { actions } from '../contexts/EthContext';
 import Action from '../types/actions.types';
+import Role from '../types/role.types';
 
 export const getContract = (address: string, signer: Signer | undefined): Contract => {
     return new ethers.Contract(address, artifact?.abi as ContractInterface, signer);
@@ -17,6 +19,7 @@ const setContract = async (
     address: string,
     signer: Signer | undefined,
     account: string | undefined,
+    role: Role | undefined,
 ): Promise<void> => {
     const contract = getContract(address, signer);
     dispatch({
@@ -24,12 +27,27 @@ const setContract = async (
     });
     const workflowStatus: number = await contract.workflowStatus();
     const owner: string = await contract.owner();
-    const isOwner = checkOwnership(owner, account);
-    const isVoter = contract.getVoter(account);
-    dispatch({
-        type: actions.setContract,
-        payload: { contract, workflowStatus, isOwner, isVoter },
-    });
+
+    switch (role?.id) {
+        case ADMIN_ID:
+            const isOwner = checkOwnership(owner, account);
+            dispatch({
+                type: actions.setContract,
+                payload: { contract, workflowStatus, isOwner },
+            });
+            break;
+        case VOTER_ID:
+            const isVoter = await contract.getVoter(account).catch(() => {
+                return;
+            });
+            dispatch({
+                type: actions.setContract,
+                payload: { contract, workflowStatus, isVoter },
+            });
+            break;
+        default:
+            break;
+    }
 };
 
 export default setContract;

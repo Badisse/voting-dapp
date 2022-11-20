@@ -8,7 +8,7 @@ function UserAddr(): JSX.Element {
     } = useEth();
 
     return (
-        <div className="flex items-center gap-3 bg-cyan-600 py-2 px-6 font-semibold text-sm rounded-xl absolute top-4 right-4 drop-shadow-2xl">
+        <div className="flex items-center gap-5 bg-cyan-600 py-2 px-6 font-semibold text-sm rounded-xl absolute top-4 right-4 drop-shadow-2xl">
             <BiWallet size="1em" />
             <div>
                 {account?.substring(0, 6)}

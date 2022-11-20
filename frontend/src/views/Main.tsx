@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ClipLoader } from 'react-spinners';
 import Admin from './Admin';
 import ParticlesBackground from '../components/Particles/ParticlesBackground';
@@ -8,15 +8,12 @@ import WORKFLOW_STATUS from '../constants/workflowStatus';
 import { useEth } from '../contexts/EthContext';
 import Home from './Home';
 import Voter from './Voter';
-import Proposal from '../types/proposal.types';
 import ContractAddr from './ContractAddr';
 
 function Main(): JSX.Element {
     const {
-        state: { loading, account, userRole, workflowStatus, contract, isVoter },
+        state: { loading, account, userRole, workflowStatus, contract },
     } = useEth();
-    const [winningProposalID, setWinningProposalID] = useState<number>();
-    const [winningProposal, setWinningProposal] = useState<Proposal>();
 
     if (loading) {
         return (
@@ -26,20 +23,6 @@ function Main(): JSX.Element {
         );
     }
 
-    if (workflowStatus === WORKFLOW_STATUS.votingSessionEnded) {
-        const getWinningProposal = async () => {
-            const proposalID = await contract?.winningProposalID();
-            setWinningProposalID(proposalID);
-
-            if (isVoter) {
-                const proposal = await contract?.getOneProposal(proposalID);
-                setWinningProposal(proposal);
-            }
-        };
-
-        getWinningProposal();
-    }
-
     return (
         <>
             {account && <UserAddr />}
@@ -47,21 +30,7 @@ function Main(): JSX.Element {
             {!userRole && <Home />}
             {userRole && userRole.id === ADMIN_ID && <Admin />}
             {userRole && userRole.id === VOTER_ID && <Voter />}
-            {workflowStatus === WORKFLOW_STATUS.votingSessionEnded && (
-                <>
-                    <div>Winning Proposal</div>
-                    {isVoter ? (
-                        <>
-                            <div>{winningProposal?.description}</div>
-                            <div>{winningProposal?.voteCount.toNumber()}</div>
-                        </>
-                    ) : (
-                        <div>{winningProposalID}</div>
-                    )}
-
-                    <ParticlesBackground />
-                </>
-            )}
+            {workflowStatus === WORKFLOW_STATUS.votingSessionEnded && <ParticlesBackground />}
         </>
     );
 }

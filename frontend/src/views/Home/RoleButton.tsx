@@ -2,6 +2,7 @@ import React from 'react';
 import useEth from '../../contexts/EthContext/useEth';
 import { actions } from '../../contexts/EthContext/state';
 import Role from '../../types/role.types';
+import Button from '../../components/Button';
 
 type Props = {
     userRole: Role;
@@ -18,13 +19,11 @@ function RoleButton({ userRole }: Props): JSX.Element {
     };
 
     return (
-        <button
-            type="button"
-            className="bg-cyan-300 p-3 font-semibold rounded-lg text-sky-800 hover:scale-110 transition ease-in-out duration-300 animate-pulse"
-            onClick={handleClick}
-        >
-            {userRole?.name}
-        </button>
+        <Button>
+            <button type="button" className="p-3" onClick={handleClick}>
+                {userRole?.name}
+            </button>
+        </Button>
     );
 }
 

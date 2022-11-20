@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { FaCopy } from 'react-icons/fa';
 import ReactTooltip from 'react-tooltip';
@@ -13,6 +13,13 @@ function CopyClipboard({ text }: Props) {
     const handleCopy = () => {
         setCopied(true);
     };
+
+    useEffect(() => {
+        isCopied &&
+            setTimeout(() => {
+                setCopied(false);
+            }, 1000);
+    }, [isCopied]);
 
     return (
         <>

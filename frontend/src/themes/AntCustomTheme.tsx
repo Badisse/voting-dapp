@@ -16,6 +16,10 @@ function AntCustomTheme({ children }: Props) {
                         colorTextDescription: '#93A3B9',
                         colorFillContent: '#93A3B9',
                     },
+                    List: {
+                        colorText: '#fbfcfd',
+                        size: 100,
+                    },
                 },
             }}
         >

@@ -9,7 +9,7 @@ function ContractAddr(): JSX.Element {
     } = useEth();
 
     return (
-        <div className="flex items-center gap-3 bg-cyan-600 py-2 px-6 font-semibold text-sm rounded-xl absolute top-4 left-4 drop-shadow-2xl">
+        <div className="flex items-center gap-5 bg-cyan-600 py-2 px-6 font-semibold text-sm rounded-xl absolute top-4 left-4 drop-shadow-2xl">
             <FaFileContract size="1em" />
             <div>
                 {contract?.address.toLocaleLowerCase().substring(0, 6)}

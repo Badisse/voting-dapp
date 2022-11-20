@@ -8,7 +8,7 @@ const getProposals = async (state: State): Promise<{ id: number; data: Proposal 
 
     for (const id of proposalsId) {
         const proposal = await state.contract?.getOneProposal(id);
-        proposals = [...proposals, proposal];
+        proposals = [...proposals, { id, data: proposal }];
     }
 
     return proposals;

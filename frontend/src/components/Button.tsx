@@ -6,7 +6,7 @@ type Props = {
 
 function Button({ children }: Props): JSX.Element {
     return (
-        <div className="bg-cyan-300 p-3 font-semibold rounded-lg text-sky-800 hover:scale-110 transition ease-in-out duration-300 animate-pulse">
+        <div className="bg-cyan-300 hover:bg-cyan-500 font-semibold rounded-lg text-sky-800 active:scale-125 transition ease-in-out duration-150 animate-pulse">
             {children}
         </div>
     );

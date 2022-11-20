@@ -1,6 +1,7 @@
 import React, { ReactNode, useState } from 'react';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
+import Input from '../../components/Input';
 import useEth from '../../contexts/EthContext/useEth';
 import { setContract, deployContract } from '../../utils';
 
@@ -10,7 +11,7 @@ type Props = {
 
 function InitAdmin({ children }: Props): JSX.Element {
     const {
-        state: { signer, account },
+        state: { signer, account, userRole },
         dispatch,
     } = useEth();
     const [address, setAddress] = useState('');
@@ -20,23 +21,19 @@ function InitAdmin({ children }: Props): JSX.Element {
     };
 
     const handleManageSession = async () => {
-        setContract(dispatch, address, signer, account);
+        setContract(dispatch, address, signer, account, userRole);
     };
 
     return (
         <div className="flex lg:justify-around md:w-2/3 h-1/2">
             <Card>
                 <>
-                    <div>
-                        <div className="text-2xl font-medium">New Voting Session</div>
+                    <div className="flex flex-col items-center">
+                        <div className="text-2xl font-medium">Create</div>
                         <div>Create a voting session</div>
                     </div>
                     <Button>
-                        <button
-                            type="button"
-                            // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                            onClick={handleCreateContract}
-                        >
+                        <button type="button" className="p-3" onClick={handleCreateContract}>
                             Create
                         </button>
                     </Button>
@@ -44,34 +41,13 @@ function InitAdmin({ children }: Props): JSX.Element {
             </Card>
             <Card>
                 <>
-                    <div className="text-2xl font-medium">Manage a voting session</div>
-                    <input
-                        type="text"
-                        className="form-control
-                        block
-                        w-full
-                        px-3
-                        py-1.5
-                        text-base
-                        font-normal
-                        text-gray-700
-                        bg-white bg-clip-padding
-                        border border-solid border-gray-300 border-2
-                        rounded
-                        transition
-                        ease-in-out
-                        m-0
-                        focus:text-gray-700 focus:bg-white focus:border-cyan-300 focus:outline-none"
-                        placeholder="Contract Address"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                    />
+                    <div className="flex flex-col items-center">
+                        <div className="text-2xl font-medium">Manage</div>
+                        <div>Manage a voting session</div>
+                    </div>
+                    <Input placeHolder="Contract Address" value={address} onChange={setAddress} />
                     <Button>
-                        <button
-                            type="button"
-                            // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                            onClick={handleManageSession}
-                        >
+                        <button type="button" className="p-3" onClick={handleManageSession}>
                             Manage
                         </button>
                     </Button>
