@@ -24,7 +24,7 @@ function InitAdmin({ children }: Props): JSX.Element {
     };
 
     return (
-        <div className="flex justify-around w-2/3 h-1/2">
+        <div className="flex lg:justify-around md:w-2/3 h-1/2">
             <Card>
                 <>
                     <div>
