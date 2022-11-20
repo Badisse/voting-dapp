@@ -68,10 +68,11 @@ function ManageSession(): JSX.Element {
                             </button>
                         </div>
                     )}
-                    {state.workflowStatus &&
+                    {state.workflowStatus !== undefined &&
                         state.workflowStatus > WORKFLOW_STATUS.registeringVoters && (
                             <div>
-                                <div>{proposalsNumber} Proposals are registered</div>
+                                <div>{proposalsNumber}</div>
+                                <div>Proposals are registered</div>
                             </div>
                         )}
                 </div>
