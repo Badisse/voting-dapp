@@ -33,7 +33,7 @@ function CopyClipboard({ text }: Props) {
                             <FaCopy size="1em" />
                         </button>
                     </CopyToClipboard>
-                    <ReactTooltip delayHide={1000} effect="solid" />
+                    <ReactTooltip effect="solid" />
                 </>
             )}
         </>
