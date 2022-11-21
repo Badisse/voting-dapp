@@ -1,5 +1,16 @@
-# ⚡️ Project - Vote system 2
-> Test our Voting smart contract with Chai and Mocha
+# Voting Dapp
+
+>This project allow you to create, manage or access a voting session.
+
+
+## Demo
+
+You can find a demo [here](https://voting-dapp-mu.vercel.app/)
+
+
+## Documentation
+
+[Documentation](https://github.com/Badisse/voting-dapp/tree/main/hardhat/docs)
 
 ## Table of Contents
 * [General Info](#general-information)
@@ -9,16 +20,12 @@
 
 
 
-## General Information
-- No dependencies required except [Docker](https://docs.docker.com/) and [Docker Compose](https://docs.docker.com/compose/compose-file/)
-
-
-
 ## Technologies Used
 - Docker - version 20.10.18
 - Docker Compose - version 3.8
 - Hardhat - version 2.12.0
 - Typescript - version 4.8.4
+- React - version 18.*
 
 
 ## Setup
@@ -27,23 +34,23 @@ Before using this repo, make sure you have installed:
 - [Docker](https://docs.docker.com/engine/install/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
-### Get started
+### Run Locally
 First you have to get the repo
 ```bash
 # Clone the repo 
-git clone git@github.com:Badisse/Developpeur-Ethereum-Template.git
+git clone https://github.com/Badisse/voting-dapp.git
 
 # Get into the repo
-cd 4.\ Truffle\ \&\ CI-CD/Tests/Projet/
+cd voting-dapp
 ```
 
 You can now run the project:
 
 ```bash
-# Build container
+# Build containers
 make build
 
-# Run the container
+# Run containers
 make start
 
 # install node_modules
