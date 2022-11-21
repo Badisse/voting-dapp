@@ -25,42 +25,54 @@ function InitAdmin({ children }: Props): JSX.Element {
     };
 
     return (
-        <div className="flex lg:justify-around md:w-2/3 h-1/2">
-            <Card>
-                <>
-                    <div className="flex flex-col items-center">
-                        <div className="text-2xl font-medium">Create</div>
-                        <div>Create a voting session</div>
-                    </div>
-                    <Button>
-                        <button type="button" className="p-3" onClick={handleCreateContract}>
-                            Create
-                        </button>
-                    </Button>
-                </>
-            </Card>
-            <Card>
-                <>
-                    <div className="flex flex-col items-center">
-                        <div className="text-2xl font-medium">Manage</div>
-                        <div>Manage a voting session</div>
-                    </div>
-                    <div>
-                        <Input
-                            placeHolder="Contract Address"
-                            value={address}
-                            onChange={setAddress}
-                        />
-                        {children}
-                    </div>
+        <div className="flex justify-around w-full h-1/2">
+            <div className="w-1/4 h-full">
+                <Card>
+                    <>
+                        <div className="flex flex-col items-center">
+                            <div className="text-2xl font-medium">Create</div>
+                            <div>Create a voting session</div>
+                        </div>
+                        <Button>
+                            <button type="button" className="p-3" onClick={handleCreateContract}>
+                                Create
+                            </button>
+                        </Button>
+                    </>
+                </Card>
+            </div>
+            <div className="w-1/4 h-full">
+                <Card>
+                    <>
+                        <div className="flex flex-col items-center">
+                            <div className="text-2xl font-medium">Manage</div>
+                            <div>Manage a voting session</div>
+                        </div>
+                        <div>
+                            <div className="flex items-center gap-5">
+                                <div>
+                                    <Input
+                                        placeHolder="Contract Address"
+                                        value={address}
+                                        onChange={setAddress}
+                                    />
+                                </div>
 
-                    <Button>
-                        <button type="button" className="p-3" onClick={handleManageSession}>
-                            Manage
-                        </button>
-                    </Button>
-                </>
-            </Card>
+                                <Button>
+                                    <button
+                                        type="button"
+                                        className="p-3"
+                                        onClick={handleManageSession}
+                                    >
+                                        Manage
+                                    </button>
+                                </Button>
+                            </div>
+                            {children}
+                        </div>
+                    </>
+                </Card>
+            </div>
         </div>
     );
 }

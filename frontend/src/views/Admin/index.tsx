@@ -14,7 +14,7 @@ function Admin(): JSX.Element {
             {!isOwner ? (
                 <InitAdmin>
                     {typeof contract !== undefined && typeof workflowStatus !== 'number' && (
-                        <div className="text-red-700 font-medium text-center">
+                        <div className="text-red-500 font-medium text-center">
                             Please enter a valid contract address
                         </div>
                     )}
