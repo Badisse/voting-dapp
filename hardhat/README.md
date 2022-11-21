@@ -1,3 +1,0 @@
-# Hardhat
-
-Test
