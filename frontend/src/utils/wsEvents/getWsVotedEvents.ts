@@ -18,8 +18,6 @@ const getWsVotedEvents = async (state: State, dispatch: Dispatch<Action>): Promi
 
         if (proposals[proposalID.toNumber()]) {
             proposals[proposalID.toNumber()].voteCount = proposal.voteCount;
-            console.log(proposals);
-            console.log(proposal);
 
             dispatch({
                 type: actions.updateVotersAddress,
