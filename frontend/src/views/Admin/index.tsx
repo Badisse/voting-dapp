@@ -7,7 +7,6 @@ function Admin(): JSX.Element {
     const {
         state: { isOwner, contract, workflowStatus },
     } = useEth();
-    console.log(contract && typeof workflowStatus !== 'number');
 
     return (
         <div className="h-screen flex flex-col items-center justify-center">

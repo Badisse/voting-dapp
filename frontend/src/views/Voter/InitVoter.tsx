@@ -11,14 +11,11 @@ type Props = {
 };
 
 function InitVoter({ children }: Props): JSX.Element {
-    const {
-        state: { signer, account, userRole },
-        dispatch,
-    } = useEth();
+    const { state, dispatch } = useEth();
     const [address, setAddress] = useState('');
 
     const handleAccessSession = async () => {
-        setContract(dispatch, address, signer, account, userRole);
+        setContract(dispatch, address, state);
     };
 
     return (

@@ -5,7 +5,7 @@ import Main from './views/Main';
 function App(): JSX.Element {
     return (
         <EthProvider>
-            <div className="bg-sky-900 text-white">
+            <div className="bg-sky-900 text-white h-full">
                 <div className="mx-8">
                     <Main />
                 </div>

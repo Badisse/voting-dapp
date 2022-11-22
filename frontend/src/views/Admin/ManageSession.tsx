@@ -1,42 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import useEth from '../../contexts/EthContext/useEth';
 import WORKFLOW_STATUS from '../../constants/workflowStatus';
-import { updateWorkflowStatus, addVoter, getVotersRegisteredAddress } from '../../utils';
+import { updateWorkflowStatus, addVoter } from '../../utils';
 import DisplayWorkflowStatus from '../../components/DisplayWorkflowStatus';
-import getProposalsRegisteredId from '../../utils/getProposalsRegisteredId';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
 import { List } from 'antd';
 import AntCustomTheme from '../../themes/AntCustomTheme';
 import Input from '../../components/Input';
-import { BigNumber } from 'ethers';
+import getWsVoterRegisteredEvents from '../../utils/wsEvents/getWsVoterRegisteredEvents';
+import getWsProposalRegisteredEvents from '../../utils/wsEvents/getWsProposalRegisteredEvents';
+import getWsWorkflowStatusChangeEvents from '../../utils/wsEvents/getWsWorkflowStatusChangeEvents';
 
 function ManageSession(): JSX.Element {
     const { state, dispatch } = useEth();
     const [voterAddress, setVoterAddress] = useState<string>('');
-    const [votersAddress, setVotersAddress] = useState<string[]>([]);
-    const [proposalsNumber, setProposalsNumber] = useState<number>();
-    const [winningProposalID, setWinningProposalID] = useState<BigNumber>();
-
-    useEffect(() => {
-        if (state.workflowStatus === WORKFLOW_STATUS.votingSessionEnded) {
-            const getWinningProposal = async () => {
-                const proposalID = await state.contract?.winningProposalID();
-                setWinningProposalID(proposalID);
-            };
-
-            getWinningProposal();
-        }
-    }, [state.workflowStatus]);
-
-    useEffect(() => {
-        getVotersRegisteredAddress(state.contract).then((voters) => {
-            setVotersAddress([...new Set(voters)]);
-        });
-        getProposalsRegisteredId(state.contract).then((proposalsId) => {
-            setProposalsNumber(proposalsId.length);
-        });
-    }, []);
 
     const handleUpdateWorkflowStatus = async () => {
         updateWorkflowStatus(state, dispatch);
@@ -46,8 +24,29 @@ function ManageSession(): JSX.Element {
         addVoter(voterAddress, state, dispatch);
     };
 
+    useEffect(() => {
+        const updateVotersAddress = async () => {
+            await getWsVoterRegisteredEvents(state, dispatch);
+        };
+
+        const updateWorkflowStatus = async () => {
+            await getWsWorkflowStatusChangeEvents(state, dispatch);
+        };
+
+        updateVotersAddress();
+        updateWorkflowStatus();
+    }, []);
+
+    useEffect(() => {
+        const updateProposals = async () => {
+            await getWsProposalRegisteredEvents(state, dispatch);
+        };
+
+        updateProposals();
+    }, [state]);
+
     return (
-        <div className="flex justify-center items-center gap-40 w-full h-2/3">
+        <div className="flex justify-center items-center gap-40 w-full h-3/5">
             {state.workflowStatus !== WORKFLOW_STATUS.votingSessionEnded ? (
                 <>
                     <div className="w-1/3 h-full">
@@ -78,7 +77,7 @@ function ManageSession(): JSX.Element {
                                 <AntCustomTheme>
                                     <List
                                         itemLayout="horizontal"
-                                        dataSource={votersAddress}
+                                        dataSource={state.votersAddress}
                                         renderItem={(item) => <List.Item>{item}</List.Item>}
                                     />
                                 </AntCustomTheme>
@@ -105,7 +104,7 @@ function ManageSession(): JSX.Element {
                             {state.workflowStatus !== undefined &&
                                 state.workflowStatus > WORKFLOW_STATUS.registeringVoters && (
                                     <div className="flex gap-3 bg-cyan-600 p-3 rounded-lg font-medium">
-                                        <div>{proposalsNumber}</div>
+                                        <div>{state.proposalsID?.length}</div>
                                         <div>Proposals registered</div>
                                     </div>
                                 )}
@@ -119,7 +118,7 @@ function ManageSession(): JSX.Element {
                             <div className="font-medium text-2xl">Winning Proposal ID</div>
 
                             <div className="font-medium text-8xl">
-                                {winningProposalID?.toNumber()}
+                                {state.winningProposalID?.toNumber()}
                             </div>
                         </div>
                     </Card>

@@ -20,7 +20,6 @@ const addVoter = async (
         await state.provider?.waitForTransaction(transaction.hash).then(() => {
             dispatch({
                 type: actions.finished,
-                payload: undefined,
             });
         });
     }

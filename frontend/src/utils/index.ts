@@ -3,7 +3,7 @@ export { default as deployContract } from './deployContract';
 export { default as getAccount } from './getAccount';
 export { default as setContract } from './setContract';
 export { default as getProvider } from './getProvider';
-export { default as getVoterRegisteredEvent } from './getVoterRegisteredEvents';
+export { default as getVoterRegisteredEvents } from './events/getVoterRegisteredEvents';
 export { default as getVotersRegisteredAddress } from './getVotersRegisteredAddress';
 export { default as getVoters } from './getVoters';
 export { default as updateWorkflowStatus } from './updateWorkflowStatus';

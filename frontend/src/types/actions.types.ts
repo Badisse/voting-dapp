@@ -1,8 +1,6 @@
-import State from './state.types';
-
 type Action = {
     type: string;
-    payload?: State;
+    payload?: any;
 };
 
 export default Action;

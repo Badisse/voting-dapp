@@ -1,18 +1,18 @@
-import { Contract, Event } from 'ethers';
-import getProposalRegisteredEvents from './getProposalRegisteredEvents';
+import { BigNumber, Contract, Event } from 'ethers';
+import getProposalRegisteredEvents from './events/getProposalRegisteredEvents';
 
-const getProposalsRegisteredId = async (contract: Contract | undefined): Promise<number[]> => {
-    let proposals: number[] = [];
+const getProposalsRegisteredId = async (contract: Contract | undefined): Promise<BigNumber[]> => {
+    let proposalsID: BigNumber[] = [];
     const events = await getProposalRegisteredEvents(contract);
     events?.forEach((event: Event) => {
-        const propId = event.args?.proposalId as number;
+        const propId = event.args?.proposalId;
 
         if (propId !== 0) {
-            proposals = [...proposals, event.args?.proposalId as number];
+            proposalsID = [...proposalsID, event.args?.proposalId];
         }
     });
 
-    return proposals;
+    return proposalsID;
 };
 
 export default getProposalsRegisteredId;

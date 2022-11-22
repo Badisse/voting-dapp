@@ -4,10 +4,21 @@ import artifact from '../constants/artifact';
 import { ADMIN_ID, VOTER_ID } from '../constants/roles';
 import { actions } from '../contexts/EthContext';
 import Action from '../types/actions.types';
-import Role from '../types/role.types';
+import State from '../types/state.types';
+import getProposals from './getProposals';
+import getProposalsRegisteredId from './getProposalsRegisteredId';
+import getVoters from './getVoters';
+import getVoterRegisteredAddress from './getVotersRegisteredAddress';
 
 export const getContract = (address: string, signer: Signer | undefined): Contract => {
     return new ethers.Contract(address, artifact?.abi as ContractInterface, signer);
+};
+
+export const getWsContract = (
+    address: string,
+    provider: ethers.providers.WebSocketProvider | undefined,
+): Contract => {
+    return new ethers.Contract(address, artifact?.abi as ContractInterface, provider);
 };
 
 const checkOwnership = (owner: string, account: string | undefined): boolean => {
@@ -17,35 +28,63 @@ const checkOwnership = (owner: string, account: string | undefined): boolean => 
 const setContract = async (
     dispatch: Dispatch<Action>,
     address: string,
-    signer: Signer | undefined,
-    account: string | undefined,
-    role: Role | undefined,
+    state: State,
 ): Promise<void> => {
     if (!ethers.utils.isAddress(address)) return;
 
-    const contract = getContract(address, signer);
-    const workflowStatus: number = await contract.workflowStatus();
+    const contract = getContract(address, state.signer);
+    const wsContract = getWsContract(address, state.wsProvider);
+    const workflowStatus = await contract.workflowStatus();
+    const winningProposalID = await contract.winningProposalID();
+    const votersAddress = await getVoterRegisteredAddress(contract);
+    const proposalsID = await getProposalsRegisteredId(contract);
 
-    dispatch({
-        type: actions.loading,
-    });
-    const owner: string = await contract.owner();
+    let owner;
+    let isOwner;
+    let isVoter;
+    let voters;
+    let proposals;
+    let winningProposal;
 
-    switch (role?.id) {
+    switch (state.userRole?.id) {
         case ADMIN_ID:
-            const isOwner = await checkOwnership(owner, account);
+            owner = await contract.owner();
+            isOwner = await checkOwnership(owner, state.account);
+
             dispatch({
                 type: actions.setContract,
-                payload: { contract, workflowStatus, isOwner },
+                payload: {
+                    contract,
+                    wsContract,
+                    workflowStatus,
+                    isOwner,
+                    votersAddress,
+                    proposalsID: [...state.proposalsID, ...proposalsID],
+                    winningProposalID,
+                },
             });
             break;
         case VOTER_ID:
-            const isVoter = await contract.getVoter(account).catch(() => {
-                return;
-            });
+            isVoter = await contract.getVoter(state.account);
+            isVoter = isVoter.isRegistered;
+            voters = await getVoters(contract);
+            proposals = await getProposals(contract);
+            winningProposal = await contract.getOneProposal(winningProposalID);
+
             dispatch({
                 type: actions.setContract,
-                payload: { contract, workflowStatus, isVoter },
+                payload: {
+                    contract,
+                    wsContract,
+                    workflowStatus,
+                    isVoter,
+                    votersAddress,
+                    proposalsID: [...state.proposalsID, ...proposalsID],
+                    voters,
+                    proposals: { ...state.proposals, ...proposals },
+                    winningProposalID,
+                    winningProposal,
+                },
             });
             break;
         default:

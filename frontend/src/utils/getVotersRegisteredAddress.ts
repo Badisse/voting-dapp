@@ -1,5 +1,5 @@
 import { Contract, Event } from 'ethers';
-import getVoterRegisteredEvents from './getVoterRegisteredEvents';
+import getVoterRegisteredEvents from './events/getVoterRegisteredEvents';
 
 const getVoterRegisteredAddress = async (contract: Contract | undefined): Promise<string[]> => {
     let voters: string[] = [];

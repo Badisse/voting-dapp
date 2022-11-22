@@ -10,23 +10,20 @@ type Props = {
 };
 
 function InitAdmin({ children }: Props): JSX.Element {
-    const {
-        state: { signer, account, userRole },
-        dispatch,
-    } = useEth();
+    const { state, dispatch } = useEth();
     const [address, setAddress] = useState('');
 
     const handleCreateContract = async () => {
-        deployContract(signer, dispatch);
+        deployContract(state.signer, state.wsProvider, dispatch);
     };
 
     const handleManageSession = async () => {
-        setContract(dispatch, address, signer, account, userRole);
+        setContract(dispatch, address, state);
     };
 
     return (
         <div className="flex justify-around w-full h-1/2">
-            <div className="w-1/4 h-full">
+            <div className="w-1/3 h-full">
                 <Card>
                     <>
                         <div className="flex flex-col items-center">
@@ -41,7 +38,7 @@ function InitAdmin({ children }: Props): JSX.Element {
                     </>
                 </Card>
             </div>
-            <div className="w-1/4 h-full">
+            <div className="w-1/3 h-full">
                 <Card>
                     <>
                         <div className="flex flex-col items-center">
