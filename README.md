@@ -23,6 +23,10 @@ You can find a demo [here](https://voting-dapp-mu.vercel.app/)
 * [Tests description](#tests-description)
 
 
+## General Informations
+- Work with:
+  - Goerli
+  - localhost
 
 ## Technologies Used
 - Docker - version 20.10.18
