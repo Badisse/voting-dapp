@@ -8,7 +8,7 @@ const getWsVoterRegisteredEvents = async (
     state: State,
     dispatch: Dispatch<Action>,
 ): Promise<void> => {
-    state.wsContract?.on('VoterRegistered', async (voterAddress) => {
+    state.wsContract?.on('VoterRegistered', async (voterAddress, event) => {
         dispatch({
             type: actions.updateVotersAddress,
             payload: {
@@ -16,20 +16,26 @@ const getWsVoterRegisteredEvents = async (
             },
         });
 
-        if (state.isVoter) {
-            const tmpVoter = await state.contract?.getVoter(voterAddress);
-            const voter: Voter = {
-                [voterAddress.toLowerCase()]: {
-                    hasVoted: tmpVoter.hasVoted,
-                    isRegistered: tmpVoter.isRegistered,
-                    votedProposalId: tmpVoter.votedProposalId,
-                },
-            };
-            dispatch({
-                type: actions.updateVoters,
-                payload: {
-                    voters: { ...state.voters, ...voter },
-                },
+        const transaction = await event.getTransactionReceipt();
+
+        if (transaction.transactionHash) {
+            await state.provider?.waitForTransaction(transaction.transactionHash).then(async () => {
+                if (state.isVoter) {
+                    const tmpVoter = await state.contract?.getVoter(voterAddress);
+                    const voter: Voter = {
+                        [voterAddress.toLowerCase()]: {
+                            hasVoted: tmpVoter.hasVoted,
+                            isRegistered: tmpVoter.isRegistered,
+                            votedProposalId: tmpVoter.votedProposalId,
+                        },
+                    };
+                    dispatch({
+                        type: actions.updateVoters,
+                        payload: {
+                            voters: { ...state.voters, ...voter },
+                        },
+                    });
+                }
             });
         }
     });

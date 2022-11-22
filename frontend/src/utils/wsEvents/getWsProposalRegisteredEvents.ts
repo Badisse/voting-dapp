@@ -8,36 +8,38 @@ const getWsProposalRegisteredEvents = async (
     state: State,
     dispatch: Dispatch<Action>,
 ): Promise<void> => {
-    state.wsContract?.on('ProposalRegistered', async (id) => {
-        if (state.isVoter) {
-            const waitFor = (delay: number) => new Promise((resolve) => setTimeout(resolve, delay));
+    state.wsContract?.on('ProposalRegistered', async (id, event) => {
+        const transaction = await event.getTransactionReceipt();
 
-            await waitFor(500);
+        if (transaction.transactionHash) {
+            await state.provider?.waitForTransaction(transaction.transactionHash).then(async () => {
+                if (state.isVoter) {
+                    const tmpProposal = await state.contract?.getOneProposal(id);
+                    const proposal: Proposal = {
+                        [id.toNumber()]: {
+                            description: tmpProposal.description,
+                            voteCount: tmpProposal.voteCount,
+                        },
+                    };
 
-            const tmpProposal = await state.contract?.getOneProposal(id);
-            const proposal: Proposal = {
-                [id.toNumber()]: {
-                    description: tmpProposal.description,
-                    voteCount: tmpProposal.voteCount,
-                },
-            };
-
-            dispatch({
-                type: actions.updateProposalsID,
-                payload: {
-                    proposalsID: [...state.proposalsID, id],
-                    proposals:
-                        proposal !== undefined
-                            ? { ...state.proposals, ...proposal }
-                            : state.proposals,
-                },
-            });
-        } else {
-            dispatch({
-                type: actions.updateProposalsID,
-                payload: {
-                    proposalsID: [...state.proposalsID, id],
-                },
+                    dispatch({
+                        type: actions.updateProposalsID,
+                        payload: {
+                            proposalsID: [...state.proposalsID, id],
+                            proposals:
+                                proposal !== undefined
+                                    ? { ...state.proposals, ...proposal }
+                                    : state.proposals,
+                        },
+                    });
+                } else {
+                    dispatch({
+                        type: actions.updateProposalsID,
+                        payload: {
+                            proposalsID: [...state.proposalsID, id],
+                        },
+                    });
+                }
             });
         }
     });
