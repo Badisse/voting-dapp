@@ -64,6 +64,7 @@
         "eslint-plugin-promise": "^6.0.0",
         "eslint-plugin-react": "^7.31.11",
         "eslint-plugin-react-hooks": "^4.6.0",
+        "fs": "^0.0.1-security",
         "git-cz": "^4.9.0",
         "husky": "^8.0.2",
         "lint-staged": "^13.0.3",
