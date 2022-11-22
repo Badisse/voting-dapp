@@ -12,6 +12,8 @@ services:
 
   frontend:
     build: ./frontend
+    environment:
+      - ALCHEMY_GOERLI_WS_KEY=${ALCHEMY_GOERLI_WS_KEY}
     volumes:
       - ./frontend:/usr/src/app
     ports:

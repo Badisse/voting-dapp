@@ -1,6 +1,8 @@
 import { ethers } from 'ethers';
 import { Dispatch } from 'react';
 import { actions } from '../contexts/EthContext';
+import * as dotenv from 'dotenv';
+dotenv.config();
 import Action from '../types/actions.types';
 import getAccount from './getAccount';
 import getProvider from './getProvider';
@@ -17,7 +19,13 @@ const connectWallet = (dispatch: Dispatch<Action>): Promise<void> => {
             case 31337:
                 wsProvider = new ethers.providers.WebSocketProvider('ws://127.0.0.1:8545/');
                 break;
+            case 5:
+                wsProvider = new ethers.providers.WebSocketProvider(
+                    `wss://eth-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_GOERLI_WS_KEY}`,
+                );
+                break;
             default:
+                return;
                 break;
         }
 
