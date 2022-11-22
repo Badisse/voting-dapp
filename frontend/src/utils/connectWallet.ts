@@ -19,7 +19,7 @@ const connectWallet = (dispatch: Dispatch<Action>): Promise<void> => {
                 break;
             case 5:
                 wsProvider = new ethers.providers.WebSocketProvider(
-                    `wss://eth-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_GOERLI_WS_KEY}`,
+                    `wss://eth-goerli.g.alchemy.com/v2/${process.env.REACT_APP_ALCHEMY_GOERLI_WS_KEY}`,
                 );
                 break;
             default:
