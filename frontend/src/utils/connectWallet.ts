@@ -1,8 +1,6 @@
 import { ethers } from 'ethers';
 import { Dispatch } from 'react';
 import { actions } from '../contexts/EthContext';
-import * as dotenv from 'dotenv';
-dotenv.config();
 import Action from '../types/actions.types';
 import getAccount from './getAccount';
 import getProvider from './getProvider';
