@@ -45,6 +45,11 @@ contract Voting is Ownable {
         _;
     }
     
+    constructor() {
+        Proposal memory proposal;
+        proposal.description = "GENESIS";
+        proposalsArray.push(proposal);
+    }
 
     // ::::::::::::: GETTERS ::::::::::::: //
  
@@ -124,10 +129,6 @@ contract Voting is Ownable {
     function startProposalsRegistering() external onlyOwner {
         require(workflowStatus == WorkflowStatus.RegisteringVoters, 'Registering proposals cant be started now');
         workflowStatus = WorkflowStatus.ProposalsRegistrationStarted;
-        
-        Proposal memory proposal;
-        proposal.description = "GENESIS";
-        proposalsArray.push(proposal);
         
         emit WorkflowStatusChange(WorkflowStatus.RegisteringVoters, WorkflowStatus.ProposalsRegistrationStarted);
     }
