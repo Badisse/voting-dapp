@@ -2,6 +2,10 @@
 
 >This project allow you to create, manage or access a voting session.
 
+## Video
+
+You can find a video [here](https://drive.google.com/file/d/1bcwMYK3s9fj0DDfgvR5qGV3l_zK2dzA-/view?usp=sharing)
+
 
 ## Demo
 
